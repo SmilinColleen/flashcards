@@ -27,47 +27,52 @@ class Game
     end
     return true
   end
-  
 
   def self.deal
     @deck.cards.each {|card| return card unless card.answered? }
   end
 
   def self.guess(card)
-
-    attempts_counter = 0
+    attempts_num = 0
 
     until card.answered?
-
-      attempts_counter += 1
-
+      attempts_num += 1
       View.print_ask_for_guess
-      user_answer = gets.chomp.downcase
-      
-      quit_game if user_answer == 'exit'
-
-      if card.answer.downcase == user_answer
-        mark_card!(card)
-        update_score(attempts_counter)
-        View.print_correct_answer_dialog
-      else
-        View.print_incorrect_answer_dialog
-      end
+      user_answer = process_user_input
+      args = {:card => card, :user_answer => user_answer, :attempts_num => attempts_num}
+      verify_anwser(args) ? View.print_correct_dialog : View.print_incorrect_dialog
     end
   end
+
+  def self.verify_anwser(args)
+    card = args[:card]
+
+    if card.answer.downcase == args[:user_answer]
+      mark_card!(card)
+      update_score(args[:attempts_num])
+      return true
+    end
+    return false
+  end
+
+  def self.process_user_input
+    user_input = gets.chomp.downcase
+    quit_game if user_input == 'exit'
+    return user_input
+  end
+
 
   def self.mark_card!(card)
     @deck.card.mark!
   end
 
-  def self.update_score(attempts)
 
+  def self.update_score(attempts)
     if attempts == 1
       @deck.score += 3
     else
       @deck.score += 1
     end
-
   end
 
 
@@ -75,7 +80,7 @@ class Game
     View.print_score
     View.print_farewell
     exit
-  end 
+  end
 
 
 end

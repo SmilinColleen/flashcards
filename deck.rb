@@ -1,4 +1,5 @@
 class Deck
+  
   def initialize
     @cards = []
     @status = :unfinished
