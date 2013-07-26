@@ -2,13 +2,13 @@
 class Parser
   attr_accessor :file, :array_of_card_hashes
   
-  def initialize(filename)
+  def initialize(filename = 'flashcard_samples.txt' )
     @file = filename
     @array_of_card_hashes = []
   end 
 
   def import_txt_file(file)
-    @file =  File.open('flashcard_samples.txt').read
+    @file =  File.open(file).read
   end
 
   def format_lines(file)
@@ -39,7 +39,7 @@ class Parser
     end
   end
 
-  def build_card
+  def build_card_array
     @rows = []
     @cards_array = []
     import_txt_file(@file)
@@ -51,6 +51,6 @@ class Parser
 end
 
 # card = Parser.new('flashcard_samples.txt')
-# p card.build_card
+# p card.build_card_array
 
 
