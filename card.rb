@@ -5,7 +5,7 @@ class Card
   def initialize(args)
     @definition = args[:definition]
     @answer = args[:answer]
-    @status = args.fetch(:status){ :unanwserd }
+    @status = args.fetch(:status){ :unanswered }
   end
 
   def answered?
