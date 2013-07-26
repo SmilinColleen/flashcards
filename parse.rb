@@ -1,82 +1,56 @@
-# require 'csv'
 
-# filename = 'flashcard_samples.txt'
-
-# def load_card(filename)
-#   @new_string = File.open(filename, 'rb') { |file| file.read}
-# end
-
-# def remove_newlines
-#   filename = 'flashcard_samples.txt'
-#   string = load_card(filename)
-#   modified_string = string.gsub(/(\n)/, " ")
-# end
-
-def create_array
-  filename = 'flashcard_samples.txt'
-  new_string = load_card(filename)
-  new_string.lines.each_slice(2).take(2)
-end
-
-# p load_card('flashcard_samples.txt')
-
-# p create_array
-
-# p remove_newlines
-
-# p "Next should be new"
-
-# p create_array
-
-def build_cards
-
-  rows = []
-  cards_array = []
-
-
-  file =  File.open('flashcard_samples.txt').read
-  file.gsub!(/\r\n?/, "\n")
-
-
-  puts "-"*50
+class Parser
+  attr_accessor :file, :array_of_card_hashes
   
+  def initialize(filename)
+    @file = filename
+    @array_of_card_hashes = []
+  end 
 
-
-  file.each_line do |row|
-
-    rows << row
-
+  def import_txt_file(file)
+    @file =  File.open('flashcard_samples.txt').read
   end
 
-  # p rows
-  puts "-"*50
-
-  rows.each_slice(3) do |card|
-    card.each do |element|
-      element.gsub!(/(\n)/, "")
+  def format_lines(file)
+    @file.each_line do |row|
+      @rows << row
     end
-    cards_array << card
+    @rows
   end
 
+  def slice_rows(rows)
+    rows.each_slice(3) do |card|
+      card.each do |element|
+        element.gsub!(/(\n)/, "")
+      end
+    @cards_array << card
+    end
+    @cards_array
+  end
 
-
-  puts "-"*50
-
-  cards_array.each do |card|
-
-    # card = Card.new(definition: card[0] , answer: card[1])
-    # deck.add_card(card)
+  def convert_to_hash(array_of_cards)
+    card_hash = {}
     symb = [:definition, :answer]
-    card.pop
-    
-    card_zipped = symb.zip(card)
-    card_hash = Hash[card_zipped]
-    
-    p card_hash
-
+    array_of_cards.each do |card|
+      card.pop
+      card_zipped = symb.zip(card)
+      card_hash = Hash[card_zipped]
+      @array_of_card_hashes << card_hash
+    end
   end
 
-
+  def build_card
+    @rows = []
+    @cards_array = []
+    import_txt_file(@file)
+    format_lines(file)
+    slice_rows(@rows)
+    convert_to_hash(@cards_array)
+    @array_of_card_hashes
+  end
 end
 
-build_cards
+# card = Parser.new('flashcard_samples.txt')
+# p card.build_card
+
+
