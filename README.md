@@ -1,4 +1,4 @@
 flashcards
 ==========
 
-A flash cards game
+This is a flash cards game writen in Ruby.
