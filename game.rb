@@ -7,6 +7,7 @@ class Game
   attr_reader :deck
 
   def self.run!
+    @score = 0
     @deck = Deck.new
     load_cards
     @deck.shuffle
@@ -27,18 +28,18 @@ class Game
     end
   end
 
-  def self.shuffle_deck
+  def self.shuffle_deck # maybe eloquent answered
     @deck.shuffle
   end
 
-  def self.finished?
+  def self.finished? #needs to know what not how
     @deck.cards.each do |card|
       return false if card.status ==:unanswered
     end
     return true
   end
 
-  def self.deal
+  def self.deal # could be done with numerators, deck know's how to deal?
     @deck.cards.each {|card| return card unless card.answered? }
   end
 
@@ -48,15 +49,15 @@ class Game
     until card.answered?
       attempts_num += 1
       # View.print_ask_for_guess
-      print "Whats your anwser ???  "
+      print "Whats your answer ???  "
       user_answer = process_user_input
       args = {:card => card, :user_answer => user_answer, :attempts_num => attempts_num}
       # verify_anwser(args) ? View.print_correct_dialog : View.print_incorrect_dialog
-      puts verify_anwser(args) ?  "Correct!!" : "Wrong!!! Bitch!"
+      puts verify_answer(args) ?  "Correct!!" : "Wrong!!! Bitch!"
     end
   end
 
-  def self.verify_anwser(args)
+  def self.verify_answer(args) # model tells the guess Principle of what vs how, 
     card = args[:card]
 
     if card.answer.downcase == args[:user_answer]
@@ -68,6 +69,10 @@ class Game
     return false
   end
 
+  def self.increment_score(value = 1)
+    @score += value
+  end
+
   def self.process_user_input
     user_input = gets.chomp.downcase
     quit_game if user_input == 'exit'
@@ -75,16 +80,16 @@ class Game
   end
 
 
-  def self.mark_card!(card)
+  def self.mark_card!(card) 
     card.mark!
   end
 
 
   def self.update_score(attempts)
     if attempts == 1
-      @deck.increment_score(3)
+      self.increment_score(3)
     else
-      @deck.increment_score
+      self.increment_score
     end
   end
 
@@ -102,7 +107,7 @@ class Game
   end
 
   def self.show_score
-    puts "You have #{@deck.score} points!!"
+    puts "You have #{@score} points!!"
   end
 
 end

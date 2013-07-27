@@ -5,7 +5,7 @@ attr_reader :cards, :status, :score
   def initialize
     @cards = []
     @status = :unfinished
-    @score = 0
+    
   end
 
   def add_card(card)
@@ -16,9 +16,7 @@ attr_reader :cards, :status, :score
     @cards.shuffle!
   end
 
-  def increment_score(value = 1)
-    @score += value
-  end
+  
 
   # def to_s
   #   @cards.each_with_index do |card, index|

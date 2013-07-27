@@ -1,4 +1,4 @@
-To create a second name for the variable or method.
+eTo create a second name for the variable or method.
 alias
 
 A command that appends two or more objects together.
