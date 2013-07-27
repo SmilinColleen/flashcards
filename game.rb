@@ -13,11 +13,11 @@ class Game
     @deck.shuffle
     until finished?
       card = deal
-      # View.print_defintion(card)
-      puts "#{card.definition}"
+      puts card.definition
       guess(card)
+      # View.print_defintion(card.defintion)
     end
-    # View.print_score
+    # View.print_score(score)
     # View.print_game_finished_dialog
   end
 

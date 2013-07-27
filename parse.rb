@@ -15,17 +15,18 @@ class Parser
     @file.each_line do |row|
       @rows << row
     end
-    @rows
+    # @rows
   end
 
   def slice_rows(rows)
     rows.each_slice(3) do |card|
+
       card.each do |element|
         element.gsub!(/(\n)/, "")
       end
-    @cards_array << card
+      @cards_array << card
     end
-    @cards_array
+    # @cards_array
   end
 
   def convert_to_hash(array_of_cards)

@@ -25,3 +25,4 @@ attr_reader :cards, :status, :score
   # end
 
 end
+  
