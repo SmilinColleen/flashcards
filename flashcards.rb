@@ -1,4 +1,4 @@
-require_relative 'parse'
+require_relative 'parser'
 require_relative 'deck'
 require_relative 'card'
 require_relative 'view'
@@ -34,7 +34,7 @@ class Game
     end
   end
 
-  def self.verify_answer(args) # model tells the guess Principle of what vs how, 
+  def self.verify_answer(args) # model tells the guess Principle of what vs how,
     card = args[:card]
     user_input = args[:user_answer]
     if card.answer.downcase == user_input
@@ -47,7 +47,7 @@ class Game
 
   def self.process_user_input
     user_input = gets.chomp.downcase
-    quit_game if user_input == 'exit' 
+    quit_game if user_input == 'exit'
     return user_input
   end
 
