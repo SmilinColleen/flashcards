@@ -1,36 +1,38 @@
 class View
 
-  def self.initialize
-    @@score = 0
-  end
 
-  def print_definition(definition)
+
+  def self.print_definition(definition)
     puts "#{definition}"
   end
 
-  def print_score(score = @@score)
-    @@score = score
+  def self.print_score(score)
     puts "You have #{score} points!!"
   end
 
-  def print_game_finished_dialog
+  def self.print_game_finished_dialog(score)
     puts "You have answered all the questions."
-    puts "You accumulated #{print_score} points"
+    print_score(score)
   end
 
-  def print_ask_for_guess
-    puts "What is the term?"
+  def self.print_ask_for_guess
+    puts "-" * 50
+    print "What is the term?   "
   end
 
-  def print_correct_dialog
-    puts "Correct.  You now have #{print_score} points.\n" + "-"*50
+  def self.print_correct_dialog(score)
+    puts "Correct."
+    print_score(score)
+    puts 
   end
 
-  def print_incorrect_dialog
-    puts "Incorrect. Please try again.\n"
+  def self.print_incorrect_dialog
+    puts "Incorrect. Please try again."
+    puts
   end
 
-  def print_farewell
+  def self.print_farewell(score)
+    print_score(score)
     puts "Bye byeeee!"
   end
 
