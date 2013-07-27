@@ -13,12 +13,8 @@ class Game
     @deck = Deck.new
     load_cards
     @deck.shuffle
-    until finished?
-      card = deal
-      guess(card)
-    end
-    View.print_score(@score)
-    View.print_game_finished_dialog(@score)
+    guess(@deck.deal) until @deck.finished?
+    View.print_game_finished_dialog
   end
 
   def self.load_cards
@@ -28,75 +24,42 @@ class Game
     end
   end
 
-  def self.shuffle_deck # maybe eloquent answered
-    @deck.shuffle
-  end
-
-  def self.finished? #needs to know what not how
-    @deck.cards.each do |card|
-      return false if card.status ==:unanswered
-    end
-    return true
-  end
-
-  def self.deal # could be done with numerators, deck know's how to deal?
-    @deck.cards.each {|card| return card unless card.answered? }
-  end
-
   def self.guess(card)
     attempts_num = 0
-
     until card.answered?
       attempts_num += 1
       View.print_definition(card.definition)
-      View.print_ask_for_guess
-      user_answer = process_user_input
-      args = {:card => card, :user_answer => user_answer, :attempts_num => attempts_num}
-      verify_answer(args) ? View.print_correct_dialog(@score) : View.print_incorrect_dialog
+      verify_answer(:card => card, :user_answer => process_user_input)
+      update_score(attempts_num) if card.answered?
     end
   end
 
   def self.verify_answer(args) # model tells the guess Principle of what vs how, 
     card = args[:card]
-
-    if card.answer.downcase == args[:user_answer]
-      mark_card!(card)
-      update_score(args[:attempts_num])
-      return true
+    user_input = args[:user_answer]
+    if card.answer.downcase == user_input
+      card.mark!
+      View.print_correct_dialog
+    else
+      View.print_incorrect_dialog
     end
-    return false
-  end
-
-  def self.increment_score(value = 1)
-    @score += value
   end
 
   def self.process_user_input
     user_input = gets.chomp.downcase
-    quit_game if user_input == 'exit'
+    quit_game if user_input == 'exit' 
     return user_input
   end
 
-
-  def self.mark_card!(card) 
-    card.mark!
+  def self.update_score(attempts_num)
+    @score += (attempts_num > 1 ? 1 : 3)
+    View.update_score!(@score)
   end
-
-
-  def self.update_score(attempts)
-    if attempts == 1
-      self.increment_score(3)
-    else
-      self.increment_score
-    end
-  end
-
 
   def self.quit_game
-    View.print_farewell(@score)
+    View.print_farewell
     exit
   end
-
 end
 
 Game.run!

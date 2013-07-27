@@ -15,7 +15,6 @@ class Parser
     @file.each_line do |row|
       @rows << row
     end
-    # @rows
   end
 
   def slice_rows(rows)
@@ -26,7 +25,6 @@ class Parser
       end
       @cards_array << card
     end
-    # @cards_array
   end
 
   def convert_to_hash(array_of_cards)
@@ -50,8 +48,4 @@ class Parser
     @array_of_card_hashes
   end
 end
-
-# card = Parser.new('flashcard_samples.txt')
-# p card.build_card_array
-
 

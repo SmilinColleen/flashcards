@@ -15,6 +15,5 @@ class Card
   def mark!
     @status = :answered
   end
-
 end
 

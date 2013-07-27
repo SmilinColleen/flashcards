@@ -1,11 +1,10 @@
 class Deck
-  
-attr_reader :cards, :status, :score
+
+  attr_reader :cards, :status, :score
 
   def initialize
     @cards = []
     @status = :unfinished
-    
   end
 
   def add_card(card)
@@ -16,13 +15,15 @@ attr_reader :cards, :status, :score
     @cards.shuffle!
   end
 
-  
+  def deal
+    @cards.each {|card| return card unless card.answered? }
+  end
 
-  # def to_s
-  #   @cards.each_with_index do |card, index|
-  #     puts "#{index + 1} - #{card.definition}"
-  #   end
-  # end
-
+  def finished?
+    @cards.each do |card|
+      return false if card.status ==:unanswered
+    end
+    return true
+  end
 end
-  
+
